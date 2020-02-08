@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="ISO-8859-1">
+		<title>Login Page</title>
+	</head>
+	<body background-color:#92a8d1;>
+		<br>
+		<form name = "login_form" class="log-form">
+			<table align = "center">
+				<tr>
+					<td align = "center" ><h3> login to your account</h3></td>
+				</tr>
+			</table>
+			<table align = "center">
+				<tr>
+					<td> Username:</td>
+					<td> <input type="text" name = "username" placeholder = "Username" required> </td>
+				</tr>
+				<tr>
+					<td>Password:</td>
+					<td><input type = "password" name = "password" placeholder = "Password" required></td>
+				</tr>		
+				<tr>
+					
+					<td></td><td align = "center"><input type = "button" class = "btn" value = "Login" onclick = validate()></td>
+				</tr>
+				<tr>
+				<td>Don't have</td><td>an account &nbsp;<a href = "/signup">SignUp</a></td>
+				</tr>
+			</table>
+			<table align = "center">
+				<tr align = "center">
+					<td align = "center"><p id = "error"></p></td>
+				</tr>
+			</table>
+		</form>
+		<script>
+			function validate()
+			{
+				var xhttp = new XMLHttpRequest();
+				uname = document.forms["login_form"]["username"].value.trim();
+				upass = document.forms["login_form"]["password"].value.trim();
+				var credentials = {
+					"username":uname,
+					"password":upass
+				};
+				credential = JSON.stringify(credentials);
+				xhttp.onreadystatechange = function(){
+					if( this.readyState == 4 && this.status == 200){
+						if(uname.trim() == "")
+						{
+							alert("Username cannot be empty!");
+							return false;
+						}
+						if(this.responseText == "invalid")
+						{
+							document.getElementById("error").innerHTML = "Invalid username or password!";
+						}
+						else if(this.responseText == "valid")
+						{
+							document.cookie="username" + credentials["username"] + "; path=/";
+							window.location.href = "/chatbot";
+						}
+					}
+				};
+				xhttp.open("POST", "/validation", true);
+				xhttp.setRequestHeader("Content-Type", "application/json");
+				xhttp.send(credential);
+			}
+		</script>
+	</body>
+	<style>
+	@import url(https://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700|Open+Sans:400,300,600);
+
+*{box-sizing:border-box;}
+html {
+  background-color: #56baed;
+}
+
+body {
+
+  font-family: "Poppins", sans-serif;
+  height: 100vh;
+}
+
+@grey:#2a2a2a;
+@blue:#1fb5bf;
+.log-form {
+  width: 40%;
+  min-width: 320px;
+  max-width: 475px;
+  background: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%,-50%);
+-moz-transform: translate(-50%,-50%);
+-o-transform: translate(-50%,-50%);
+-ms-transform: translate(-50%,-50%);
+transform: translate(-50%,-50%);
+  
+  box-shadow: 0px 2px 5px rgba(0,0,0,.25);
+  
+  @media(max-width: 40em){
+    width: 95%;
+    position: relative;
+    margin: 2.5% auto 0 auto;
+    left: 0%;
+  -webkit-transform: translate(0%,0%);
+-moz-transform: translate(0%,0%);
+-o-transform: translate(0%,0%);
+-ms-transform: translate(0%,0%);
+transform: translate(0%,0%);
+  }
+  
+  form {
+    display: block;
+    width: 100%;
+    padding: 2em;
+  }
+  
+  h2 {
+   text-align: center;
+  font-size: 16px;
+  font-weight: 600;
+  text-transform: uppercase;
+  display:inline-block;
+  margin: 40px 8px 10px 8px; 
+  color: #cccccc;
+  }
+  
+  input[type=button], input[type=submit], input[type=reset]  {
+  background-color: #56baed;
+  border: none;
+  color: white;
+  padding: 15px 80px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  text-transform: uppercase;
+  font-size: 13px;
+  -webkit-box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
+  box-shadow: 0 10px 30px 0 rgba(95,186,233,0.4);
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+  margin: 5px 20px 40px 20px;
+  -webkit-transition: all 0.3s ease-in-out;
+  -moz-transition: all 0.3s ease-in-out;
+  -ms-transition: all 0.3s ease-in-out;
+  -o-transition: all 0.3s ease-in-out;
+  transition: all 0.3s ease-in-out;
+}
+
+input[type=button]:hover, input[type=submit]:hover, input[type=reset]:hover  {
+  background-color: #39ace7;
+}
+
+input[type=button]:active, input[type=submit]:active, input[type=reset]:active  {
+  -moz-transform: scale(0.95);
+  -webkit-transform: scale(0.95);
+  -o-transform: scale(0.95);
+  -ms-transform: scale(0.95);
+  transform: scale(0.95);
+}
+
+input[type=text] {
+  background-color: #f6f6f6;
+  border: none;
+  color: #0d0d0d;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 5px;
+  width: 85%;
+  border: 2px solid #f6f6f6;
+  -webkit-transition: all 0.5s ease-in-out;
+  -moz-transition: all 0.5s ease-in-out;
+  -ms-transition: all 0.5s ease-in-out;
+  -o-transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
+  -webkit-border-radius: 5px 5px 5px 5px;
+  border-radius: 5px 5px 5px 5px;
+}
+
+input[type=text]:focus {
+  background-color: #fff;
+  border-bottom: 2px solid #5fbae9;
+}
+
+input[type=text]:placeholder {
+  color: #cccccc;
+}
+  
+  .btn {
+    display: inline-block;
+    background: @blue;
+    border: 1px solid darken(@blue, 5%);
+    padding: .5em 2em;
+    color: white;
+    margin-right: .5em;
+    box-shadow: inset 0px 1px 0px fadeout(white, 80%); 
+    &:hover {
+      background: lighten(@blue, 5%);
+    }
+    &:active {
+      background: @blue; 
+      box-shadow: inset 0px 1px 1px fadeout(black, 90%); 
+    }
+    &:focus {
+      outline: none;
+    }
+  }
+  
+  .forgot {
+    color: lighten(@blue, 10%);
+    line-height: .5em;
+    position: relative;
+    top: 2.5em;
+    text-decoration: none;
+    font-size: .75em;
+    margin:0;
+    padding: 0;
+    float: right;
+    
+    &:hover {
+      color:darken(@blue, 5%);
+    }
+    &:active{ 
+    }
+  }
+  
+}
+
+
+	</style>
+</html>
